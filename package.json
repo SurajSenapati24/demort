@@ -8,7 +8,7 @@
     "start": "node server.js",
     "server": "npm install && nodemon server.js",
     "client:dev": "cd client && npm install && npm run start",
-    "dev": "npm install &&concurrently \"npm run server\" \"npm run client:dev\""
+    "dev": "npm install && concurrently \"npm run server\" \"npm run client:dev\""
   },
   "keywords": [],
   "author": "mayurdev",
