@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
 :root {
-
     --primary-color: #ff7f00;
     --secondary-color: #ffb347;
     --background-color: #fffaf0;
@@ -8,18 +6,16 @@
     --border-radius: 8px;
     --shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
     background-color: var(--background-color);
-    user-select: none;
     color: var(--text-color);
     line-height: 1.6;
 }
@@ -57,9 +53,6 @@ header .container {
 .logo i {
     margin-right: 8px;
     font-size: 1.8rem;
-}
-.RC{
-    font-size: 2.5rem;
 }
 
 nav ul {
@@ -152,7 +145,7 @@ nav ul li.active a {
 /* Hero Section */
 .hero {
     padding: 40px 0 100px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient( 270deg,#ff870fe4,#ff9e3cb3  );
     color: white;
     position: relative;
     min-height: 80vh;
