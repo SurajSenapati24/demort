@@ -1,5 +1,5 @@
 {
-  "name": "doctor-appointmnet-system",
+  "name": "runtime-terrors",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,8 +11,6 @@
     "dev": "npm install && concurrently \"npm run server\" \"npm run client:dev\""
   },
   "keywords": [],
-  "author": "mayurdev",
-  "license": "VIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
