@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  notifcation: {
+  notification: {
     type: Array,
     default: [],
   },
@@ -29,6 +29,20 @@ const userSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  healthcareRecords: {
+    type: Array,
+    default: [],
+    validate: {
+      validator: function(records) {
+        return records.every(record => 
+          typeof record === 'string' && 
+          (record.endsWith('.pdf') || record.endsWith('.jpg') || record.endsWith('.png'))
+        );
+      },
+      message: 'Each record must be a string ending with .pdf, .jpg, or .png',
+    },
+  },
+
 });
 
 const userModel = mongoose.model("users", userSchema);

@@ -82,43 +82,55 @@ const authController = async (req, res) => {
 // APpply DOctor CTRL
 const applyDoctorController = async (req, res) => {
   try {
-    const newDoctor = await doctorModel({ ...req.body, status: "pending" });
+    const newDoctor = new doctorModel({ ...req.body, status: "pending" });
     await newDoctor.save();
+
     const adminUser = await userModel.findOne({ isAdmin: true });
-    const notifcation = adminUser.notifcation;
-    notifcation.push({
+    if (!adminUser) {
+      return res.status(404).send({
+        success: false,
+        message: "Admin user not found. Cannot send notification.",
+      });
+    }
+
+    const notification = adminUser.notification || [];
+    notification.push({
       type: "apply-doctor-request",
-      message: `${newDoctor.firstName} ${newDoctor.lastName} Has Applied For A Doctor Account`,
+      message: `${newDoctor.firstName} ${newDoctor.lastName} has applied for a doctor account.`,
       data: {
         doctorId: newDoctor._id,
-        name: newDoctor.firstName + " " + newDoctor.lastName,
-        onClickPath: "/admin/docotrs",
+        name: `${newDoctor.firstName} ${newDoctor.lastName}`,
+        onClickPath: "/admin/doctors",
       },
     });
-    await userModel.findByIdAndUpdate(adminUser._id, { notifcation });
+
+    await userModel.findByIdAndUpdate(adminUser._id, { notification });
+
     res.status(201).send({
       success: true,
-      message: "Doctor Account Applied SUccessfully",
+      message: "Doctor account applied successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error("Apply Doctor Error:", error);
     res.status(500).send({
       success: false,
-      error,
-      message: "Error WHile Applying For Doctotr",
+      error: error.message,
+      message: "Error while applying for doctor",
     });
   }
 };
+
+
 
 //notification ctrl
 const getAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.body.userId });
     const seennotification = user.seennotification;
-    const notifcation = user.notifcation;
-    seennotification.push(...notifcation);
-    user.notifcation = [];
-    user.seennotification = notifcation;
+    const notification = user.notification;
+    seennotification.push(...notification);
+    user.notification = [];
+    user.seennotification = notification;
     const updatedUser = await user.save();
     res.status(200).send({
       success: true,
@@ -139,7 +151,7 @@ const getAllNotificationController = async (req, res) => {
 const deleteAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.body.userId });
-    user.notifcation = [];
+    user.notification = [];
     user.seennotification = [];
     const updatedUser = await user.save();
     updatedUser.password = undefined;
@@ -186,7 +198,7 @@ const bookeAppointmnetController = async (req, res) => {
     const newAppointment = new appointmentModel(req.body);
     await newAppointment.save();
     const user = await userModel.findOne({ _id: req.body.doctorInfo.userId });
-    user.notifcation.push({
+    user.notification.push({
       type: "New-appointment-request",
       message: `A nEw Appointment Request from ${req.body.userInfo.name}`,
       onCLickPath: "/user/appointments",
